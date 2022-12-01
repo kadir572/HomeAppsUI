@@ -42,23 +42,6 @@ const AddExpense = () => {
     })
 
     setDebtors(newState)
-    // setDebtors(prev => (prev = [prev.slice(0, index)]))
-  }
-
-  const getDebtorName = (index: number) => {
-    if (debtors[index]) {
-      return debtors[index].name
-    } else {
-      console.log("getDebtorName index doesn't exist")
-    }
-  }
-
-  const getDebtorAmount = (index: number) => {
-    if (debtors[index]) {
-      return debtors[index].amount
-    } else {
-      console.log("getDebtorAmount index doesn't exist")
-    }
   }
 
   const onDebtorAmountChange = (index: number, value: any) => {
@@ -70,7 +53,6 @@ const AddExpense = () => {
     })
 
     setDebtors(newState)
-    // setDebtors(prev => (prev = [...prev, (prev[index].amount = value)]))
   }
 
   useEffect(() => {
@@ -149,9 +131,7 @@ const AddExpense = () => {
                 {debtors.map(debtor => (
                   <AddExpenseDebtor
                     onNameChange={onDebtorNameChange}
-                    getName={getDebtorName}
                     onAmountChange={onDebtorAmountChange}
-                    getAmount={getDebtorAmount}
                     key={`debtor-${debtors.indexOf(debtor)}`}
                     index={debtors.indexOf(debtor)}
                   />

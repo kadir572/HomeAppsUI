@@ -4,17 +4,9 @@ type Props = {
   index: number
   onNameChange: any
   onAmountChange: any
-  getName: any
-  getAmount: any
 }
 
-const AddExpenseDebtor = ({
-  index,
-  onAmountChange,
-  onNameChange,
-  getName,
-  getAmount,
-}: Props) => {
+const AddExpenseDebtor = ({ index, onAmountChange, onNameChange }: Props) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
 
@@ -26,6 +18,16 @@ const AddExpenseDebtor = ({
   //   onAmountChange(index, amount)
   // }, [amount])
 
+  const onChangeNameHandler = (e: any) => {
+    setName(e.target.value)
+    onNameChange(index, e.target.value)
+  }
+
+  const onChangeAmountHandler = (e: any) => {
+    setAmount(e.target.value)
+    onAmountChange(index, e.target.value)
+  }
+
   return (
     <div className='w-20'>
       <label htmlFor='debtorName'>Name</label>
@@ -34,8 +36,8 @@ const AddExpenseDebtor = ({
         type='text'
         name='debtorName'
         id='debtorName'
-        value={getName(index)}
-        onChange={e => onNameChange(index, e.target.value)}
+        value={name}
+        onChange={onChangeNameHandler}
       />
       <label htmlFor='debtorAmount'>Amount</label>
       <input
@@ -43,8 +45,8 @@ const AddExpenseDebtor = ({
         type='number'
         name='debtorAmount'
         id='debtorAmount'
-        value={getAmount(index)}
-        onChange={e => onAmountChange(index, e.target.value)}
+        value={amount}
+        onChange={onChangeAmountHandler}
       />
     </div>
   )
