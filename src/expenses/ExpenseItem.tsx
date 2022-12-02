@@ -1,5 +1,5 @@
-import { Debtor } from '../types/Debtor'
-import { Expense } from '../types/Expense'
+import { Debtor } from '../types/api/Debtor'
+import { Expense } from '../types/api/Expense'
 
 interface Props {
   expense: Expense

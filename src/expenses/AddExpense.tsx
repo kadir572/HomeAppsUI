@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AddExpenseDebtor from './AddExpenseDebtor'
+import api from '../api/expenses'
+import { Expense } from '../types/ui/Expense'
 
 const AddExpense = () => {
   const [showForm, setShowForm] = useState(false)
@@ -7,62 +9,77 @@ const AddExpense = () => {
   const [amount, setAmount] = useState('')
   const [payor, setPayor] = useState('')
   const [description, setDescription] = useState('')
-  const [debtors, setDebtors] = useState([
-    { name: undefined, amount: undefined },
-  ])
+  const [debtors, setDebtors] = useState([{ name: '', amount: '' }])
+  const [isResetState, setIsResetState] = useState(true)
 
-  const toggleButton = () => {
-    setShowForm(prev => (prev = !prev))
-  }
-
-  const submitFormHandler = (e: any) => {
+  const submitFormHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newExpense = {
+
+    const newExpense: Expense = {
       title,
       amount: Number(amount),
       description,
       payor,
     }
-    console.log(newExpense)
+
+    const filteredDebtors = debtors
+      .filter(debtor => debtor.name !== '' && debtor.amount !== '')
+      .map(dbtr => ({ ...dbtr, amount: Number(dbtr.amount) }))
+
+    if (filteredDebtors.length > 0) newExpense.debtors = filteredDebtors
+
+    resetForm()
+
+    try {
+      await api.post('/expense', newExpense)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const addDebtor = () => {
+    setIsResetState(false)
     if (debtors.length >= 3) return
-    setDebtors(
-      prev => (prev = [...prev, { name: undefined, amount: undefined }])
-    )
+    setDebtors(prev => (prev = [...prev, { name: '', amount: '' }]))
   }
 
-  const onDebtorNameChange = (index: number, value: any) => {
-    const newState = debtors.map(debtor => {
+  const onDebtorNameChange = (index: number, value: string) => {
+    setIsResetState(false)
+    const updatedDebtors = debtors.map(debtor => {
       if (debtors.indexOf(debtor) === index) {
         return { ...debtor, name: value }
       }
       return debtor
     })
 
-    setDebtors(newState)
+    setDebtors(updatedDebtors)
   }
 
-  const onDebtorAmountChange = (index: number, value: any) => {
-    const newState = debtors.map(debtor => {
+  const onDebtorAmountChange = (index: number, value: string) => {
+    setIsResetState(false)
+    const updatedDebtors = debtors.map(debtor => {
       if (debtors.indexOf(debtor) === index) {
         return { ...debtor, amount: value }
       }
       return debtor
     })
 
-    setDebtors(newState)
+    setDebtors(updatedDebtors)
   }
 
-  useEffect(() => {
-    console.log(debtors)
-  }, [debtors])
+  const resetForm = () => {
+    setTitle('')
+    setAmount('')
+    setPayor('')
+    setDescription('')
+    setDebtors([{ name: '', amount: '' }])
+    setIsResetState(true)
+  }
 
   return (
     <>
       <button
-        onClick={toggleButton}
+        onClick={() => setShowForm(prev => (prev = !prev))}
         className={`border ${
           !showForm
             ? 'bg-green-800/70 border-green-800 rounded hover:bg-green-700/70 hover:border-green-700'
@@ -130,6 +147,7 @@ const AddExpense = () => {
               <div className='flex gap-2 items-center'>
                 {debtors.map(debtor => (
                   <AddExpenseDebtor
+                    isReset={isResetState}
                     onNameChange={onDebtorNameChange}
                     onAmountChange={onDebtorAmountChange}
                     key={`debtor-${debtors.indexOf(debtor)}`}
@@ -138,18 +156,29 @@ const AddExpense = () => {
                 ))}
               </div>
               <button
+                type='button'
                 onClick={addDebtor}
                 className='border border-blue-800 bg-blue-800/70 rounded px-2 py-1 hover:border-blue-700 hover:bg-blue-700/70 duration-200 text-sm'
               >
                 + Add Debtor
               </button>
             </div>
-            <button
-              className='bg-green-800/70 border-green-800 rounded hover:bg-green-700/70 hover:border-green-700 duration-200 px-2 py-1 text-sm mb-2 border max-w-max'
-              type='submit'
-            >
-              Submit Expense
-            </button>
+            <div className='flex gap-2'>
+              <button
+                className='bg-green-800/70 border-green-800 rounded hover:bg-green-700/70 hover:border-green-700 disabled:bg-green-800/20 disabled:border-green-800/20 disabled:hover:bg-green-800/20 disabled:hover:border-green-800/20 duration-200 px-2 py-1 text-sm mb-2 border max-w-max'
+                type='submit'
+                disabled={!(title && description && amount && payor)}
+              >
+                Submit Expense
+              </button>
+              <button
+                onClick={resetForm}
+                className='bg-red-800/70 border-red-800 rounded hover:bg-red-700/70 hover:border-red-700 duration-200 px-2 py-1 text-sm mb-2 border max-w-max'
+                type='button'
+              >
+                Reset
+              </button>
+            </div>
           </form>
         </div>
       )}

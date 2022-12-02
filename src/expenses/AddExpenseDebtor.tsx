@@ -4,29 +4,36 @@ type Props = {
   index: number
   onNameChange: any
   onAmountChange: any
+  isReset: boolean
 }
 
-const AddExpenseDebtor = ({ index, onAmountChange, onNameChange }: Props) => {
+const AddExpenseDebtor = ({
+  index,
+  onAmountChange,
+  onNameChange,
+  isReset,
+}: Props) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
 
-  // useEffect(() => {
-  //   onNameChange(index, name)
-  // }, [name])
-
-  // useEffect(() => {
-  //   onAmountChange(index, amount)
-  // }, [amount])
-
-  const onChangeNameHandler = (e: any) => {
+  const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
     onNameChange(index, e.target.value)
   }
 
-  const onChangeAmountHandler = (e: any) => {
+  const onChangeAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value)
     onAmountChange(index, e.target.value)
   }
+
+  const resetAll = () => {
+    setName('')
+    setAmount('')
+  }
+
+  useEffect(() => {
+    if (isReset) resetAll()
+  }, [isReset])
 
   return (
     <div className='w-20'>

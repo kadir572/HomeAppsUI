@@ -1,5 +1,5 @@
 import ExpenseItem from './ExpenseItem'
-import { Expense } from '../types/Expense'
+import { Expense } from '../types/api/Expense'
 import { useEffect, useState } from 'react'
 import api from '../api/expenses'
 
@@ -23,7 +23,6 @@ const ExpensesList = () => {
   }, [expenses])
 
   const onExpenseDeleteHandler = async (expense: Expense) => {
-    console.log('triggered')
     try {
       const response = await api.delete(`/expense/${expense._id}`)
       console.log(response)
