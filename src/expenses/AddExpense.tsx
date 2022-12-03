@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import api from '../api/expense'
+import { Expense } from '../types/ui/expense/Expense'
 import AddExpenseDebtor from './AddExpenseDebtor'
-import api from '../api/expenses'
-import { Expense } from '../types/ui/Expense'
 
 const AddExpense = () => {
   const [showForm, setShowForm] = useState(false)
@@ -31,7 +31,7 @@ const AddExpense = () => {
     resetForm()
 
     try {
-      await api.post('/expense', newExpense)
+      await api.post('/', newExpense)
     } catch (err) {
       console.log(err)
     }

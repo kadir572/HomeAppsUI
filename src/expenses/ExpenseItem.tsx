@@ -1,5 +1,6 @@
-import { Debtor } from '../types/api/Debtor'
-import { Expense } from '../types/api/Expense'
+import { Debtor } from '../types/api/expense/Debtor'
+import { Expense } from '../types/api/expense/Expense'
+import ExpenseDebtor from './ExpenseDebtor'
 
 interface Props {
   expense: Expense
@@ -19,16 +20,7 @@ const ExpenseItem = ({ expense, onDelete }: Props) => {
         <div className='flex flex-col'>
           <div className='grid grid-cols-1 gap-2'>
             {expense.debtors.map((debtor: Debtor) => (
-              <div
-                className='grid grid-cols-[2fr_1fr_3fr] gap-3'
-                key={debtor._id}
-              >
-                <span className='text-sm'>{debtor.name}</span>
-                <span className='text-sm'>{debtor.amount}</span>
-                <button className='border bg-red-800/70 border-red-800 rounded hover:bg-red-700/70 hover:border-red-700 duration-200 px-2 py-px text-sm'>
-                  Unpaid
-                </button>
-              </div>
+              <ExpenseDebtor key={debtor._id} debtor={debtor} />
             ))}
           </div>
         </div>

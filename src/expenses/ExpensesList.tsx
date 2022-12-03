@@ -1,7 +1,7 @@
-import ExpenseItem from './ExpenseItem'
-import { Expense } from '../types/api/Expense'
 import { useEffect, useState } from 'react'
-import api from '../api/expenses'
+import api from '../api/expense'
+import { Expense } from '../types/api/expense/Expense'
+import ExpenseItem from './ExpenseItem'
 
 const ExpensesList = () => {
   const [expenses, setExpenses] = useState([])
@@ -9,7 +9,7 @@ const ExpensesList = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await api.get('/expense')
+        const response = await api.get('/')
         if (response && response.data) setExpenses(response.data)
       } catch (err: any) {
         if (err.response) {
@@ -24,7 +24,7 @@ const ExpensesList = () => {
 
   const onExpenseDeleteHandler = async (expense: Expense) => {
     try {
-      const response = await api.delete(`/expense/${expense._id}`)
+      const response = await api.delete(`/${expense._id}`)
       console.log(response)
     } catch (err) {
       let message
