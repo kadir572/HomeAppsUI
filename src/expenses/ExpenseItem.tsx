@@ -20,7 +20,11 @@ const ExpenseItem = ({ expense, onDelete }: Props) => {
         <div className='flex flex-col'>
           <div className='grid grid-cols-1 gap-2'>
             {expense.debtors.map((debtor: Debtor) => (
-              <ExpenseDebtor key={debtor._id} debtor={debtor} />
+              <ExpenseDebtor
+                expenseId={expense._id}
+                key={debtor._id}
+                debtor={debtor}
+              />
             ))}
           </div>
         </div>
