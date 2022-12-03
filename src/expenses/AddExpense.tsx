@@ -39,7 +39,7 @@ const AddExpense = () => {
 
   const addDebtor = () => {
     setIsResetState(false)
-    if (debtors.length >= 3) return
+    if (debtors.length >= 5) return
     setDebtors(prev => (prev = [...prev, { name: '', amount: '' }]))
   }
 
@@ -155,13 +155,15 @@ const AddExpense = () => {
                   />
                 ))}
               </div>
-              <button
-                type='button'
-                onClick={addDebtor}
-                className='border border-blue-800 bg-blue-800/70 rounded px-2 py-1 hover:border-blue-700 hover:bg-blue-700/70 duration-200 text-sm'
-              >
-                + Add Debtor
-              </button>
+              {debtors.length < 5 && (
+                <button
+                  type='button'
+                  onClick={addDebtor}
+                  className='border border-blue-800 bg-blue-800/70 rounded px-2 py-1 hover:border-blue-700 hover:bg-blue-700/70 duration-200 text-sm'
+                >
+                  + Add Debtor
+                </button>
+              )}
             </div>
             <div className='flex gap-2'>
               <button
