@@ -12,7 +12,7 @@ const ExpenseDebtor = ({ debtor }: Props) => {
   }
   const [isPaid, setIsPaid] = useState(false)
   return (
-    <div className='grid grid-cols-[2fr_1fr_3fr] gap-3' key={debtor._id}>
+    <div className='grid grid-cols-[2fr_1fr_50%] gap-3' key={debtor._id}>
       <span className='text-sm'>{debtor.name}</span>
       <span className='text-sm'>{debtor.amount}</span>
       <button
