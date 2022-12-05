@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import api from '../api/expense'
+import { useWindowSize } from '../hooks/useWindowSize'
 import { Expense } from '../types/api/expense/Expense'
 import ExpenseItem from './ExpenseItem'
 
 const ExpensesList = () => {
   const [expenses, setExpenses] = useState([])
+  const size = useWindowSize()
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -34,7 +36,13 @@ const ExpensesList = () => {
     }
   }
   return (
-    <ul className='grid grid-cols-[minmax(300px,_500px)] gap-2'>
+    <ul
+      className={`grid ${
+        size.width <= 800
+          ? 'grid-cols-[minmax(300px,_500px)]'
+          : 'grid-cols-[minmax(300px,_500px)_minmax(300px,_500px)]'
+      } gap-2`}
+    >
       {expenses.map((expense: Expense) => (
         <ExpenseItem
           key={expense._id}
