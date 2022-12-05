@@ -40,7 +40,9 @@ const ExpensesList = () => {
       className={`grid ${
         size.width <= 800
           ? 'grid-cols-[minmax(300px,_500px)]'
-          : 'grid-cols-[expense-2]'
+          : size.width <= 1200
+          ? 'grid-cols-[minmax(300px,_500px)_minmax(300px,_500px)]'
+          : 'grid-cols-[minmax(300px,_500px)_minmax(300px,_500px)_minmax(300px,_500px)]'
       } gap-2`}
     >
       {expenses.map((expense: Expense) => (
