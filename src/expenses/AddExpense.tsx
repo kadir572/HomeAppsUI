@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import api from '../api/expense'
+import { ButtonType } from '../types/ui/expense/common/Button'
 import { Expense } from '../types/ui/expense/Expense'
+import Button from '../UI/Button'
 import AddExpenseDebtor from './AddExpenseDebtor'
 
 const AddExpense = () => {
@@ -80,16 +82,11 @@ const AddExpense = () => {
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setShowForm(prev => (prev = !prev))}
-        className={`border ${
-          !showForm
-            ? 'bg-green-800/70 border-green-800 rounded hover:bg-green-700/70 hover:border-green-700'
-            : 'bg-red-800/70 border-red-800 rounded hover:bg-red-700/70 hover:border-red-700'
-        }  duration-200 px-2 py-1 text-sm mb-2`}
-      >
-        {!showForm ? 'Add Expense' : 'Hide Form'}
-      </button>
+        buttonType={showForm ? ButtonType.Danger : ButtonType.Primary}
+        text={showForm ? 'Hide Form' : 'Add Expense'}
+      />
       {showForm && (
         <div className='grid grid-cols-[minmax(300px,_500px)]'>
           <form
@@ -158,30 +155,27 @@ const AddExpense = () => {
                 ))}
               </div>
               {debtors.length < debtorLimit && (
-                <button
-                  type='button'
+                <Button
                   onClick={addDebtor}
-                  className='border border-blue-800 bg-blue-800/70 rounded px-2 py-1 hover:border-blue-700 hover:bg-blue-700/70 duration-200 text-sm'
-                >
-                  + Add Debtor
-                </button>
+                  type='button'
+                  buttonType={ButtonType.Info}
+                  text='+ Add Debtor'
+                />
               )}
             </div>
             <div className='flex gap-2'>
-              <button
-                className='bg-green-800/70 border-green-800 rounded hover:bg-green-700/70 hover:border-green-700 disabled:bg-green-800/20 disabled:border-green-800/20 disabled:hover:bg-green-800/20 disabled:hover:border-green-800/20 duration-200 px-2 py-1 text-sm mb-2 border max-w-max'
+              <Button
                 type='submit'
+                text='Submit Expense'
                 disabled={!(title && description && amount && payor)}
-              >
-                Submit Expense
-              </button>
-              <button
+                buttonType={ButtonType.Primary}
+              />
+              <Button
                 onClick={resetForm}
-                className='bg-red-800/70 border-red-800 rounded hover:bg-red-700/70 hover:border-red-700 duration-200 px-2 py-1 text-sm mb-2 border max-w-max'
                 type='button'
-              >
-                Reset
-              </button>
+                buttonType={ButtonType.Danger}
+                text='Reset'
+              />
             </div>
           </form>
         </div>
