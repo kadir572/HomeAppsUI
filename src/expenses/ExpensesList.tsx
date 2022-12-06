@@ -27,7 +27,6 @@ const ExpensesList = () => {
   const onExpenseDeleteHandler = async (expense: Expense) => {
     try {
       const response = await api.delete(`/${expense._id}`)
-      console.log(response)
     } catch (err) {
       let message
       if (err instanceof Error) message = err.stack
