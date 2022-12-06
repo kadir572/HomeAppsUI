@@ -36,10 +36,10 @@ const AddExpenseDebtor = ({
   }, [isReset])
 
   return (
-    <div className='w-20'>
+    <div className='w-24'>
       <label htmlFor='debtorName'>Name</label>
       <input
-        className='max-w-full rounded text-black px-1 py-px'
+        className='w-full rounded text-black px-1 py-px'
         type='text'
         name='debtorName'
         id='debtorName'
@@ -48,7 +48,7 @@ const AddExpenseDebtor = ({
       />
       <label htmlFor='debtorAmount'>Amount</label>
       <input
-        className='max-w-full rounded text-black px-1 py-px'
+        className='w-full rounded text-black px-1 py-px'
         type='number'
         name='debtorAmount'
         id='debtorAmount'

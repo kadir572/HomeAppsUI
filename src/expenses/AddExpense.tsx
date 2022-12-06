@@ -4,6 +4,8 @@ import { Expense } from '../types/ui/expense/Expense'
 import AddExpenseDebtor from './AddExpenseDebtor'
 
 const AddExpense = () => {
+  const debtorLimit: number = 3
+
   const [showForm, setShowForm] = useState(false)
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState('')
@@ -39,7 +41,7 @@ const AddExpense = () => {
 
   const addDebtor = () => {
     setIsResetState(false)
-    if (debtors.length >= 5) return
+    if (debtors.length >= debtorLimit) return
     setDebtors(prev => (prev = [...prev, { name: '', amount: '' }]))
   }
 
@@ -92,9 +94,9 @@ const AddExpense = () => {
         <div className='grid grid-cols-[minmax(300px,_500px)]'>
           <form
             onSubmit={submitFormHandler}
-            className='flex flex-col gap-4 pb-4'
+            className='flex flex-col gap-4 pb-4 max-w-full'
           >
-            <div className='flex justify-between'>
+            <div className='flex flex-col xs:flex-row justify-between gap-2'>
               <div className='flex flex-col gap-1'>
                 <label htmlFor='title'>Title</label>
                 <input
@@ -155,7 +157,7 @@ const AddExpense = () => {
                   />
                 ))}
               </div>
-              {debtors.length < 5 && (
+              {debtors.length < debtorLimit && (
                 <button
                   type='button'
                   onClick={addDebtor}
