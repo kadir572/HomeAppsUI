@@ -12,7 +12,7 @@ const BurgerMenu = ({ setIsClosed }: Props) => {
     setIsClosed(!menuClosed)
   }
   return (
-    <div onClick={toggle} className=' py-3'>
+    <div onClick={toggle} className='cursor-pointer py-3'>
       <div
         className={`relative w-8 h-0.5  before:w-8 before:h-0.5  before:absolute before:-translate-y-3 after:absolute after:w-8 after:h-0.5 transition duration-200 before:duration-200 after:duration-200 ease-out before:ease-out after:ease-out after:translate-y-3 before:origin-top-left after:origin-bottom-left ${
           menuClosed
