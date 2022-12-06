@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export default axios.create({
-  baseURL: 'https://home-apps-api.herokuapp.com/expense',
+  baseURL: `${process.env.REACT_APP_API_URL}/expense`,
 })
