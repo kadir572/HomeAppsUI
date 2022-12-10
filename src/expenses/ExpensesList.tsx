@@ -1,45 +1,30 @@
-import { useEffect, useState } from 'react'
 import api from '../api/expense'
-import { useWindowSize } from '../hooks/useWindowSize'
 import { Expense } from '../types/api/expense/Expense'
 import ExpenseItem from './ExpenseItem'
+import ExpenseContext from '../context/ExpenseContext'
+import { useContext } from 'react'
 
 const ExpensesList = () => {
-  const [expenses, setExpenses] = useState([])
-  const size = useWindowSize()
-
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const response = await api.get('/')
-        if (response && response.data) setExpenses(response.data)
-      } catch (err: any) {
-        if (err.response) {
-          console.log(err.response.data)
-        } else {
-          console.log(`Error: ${err.message}`)
-        }
-      }
-    }
-    fetchExpenses()
-  }, [expenses])
+  const { expenses, width, fetchExpenses } = useContext(ExpenseContext)
 
   const onExpenseDeleteHandler = async (expense: Expense) => {
     try {
-      const response = await api.delete(`/${expense._id}`)
+      await api.delete(`/${expense._id}`)
     } catch (err) {
       let message
       if (err instanceof Error) message = err.stack
       else message = String(err)
       console.log(message)
+    } finally {
+      fetchExpenses()
     }
   }
   return (
     <ul
       className={`grid ${
-        size.width <= 800
+        width <= 800
           ? 'grid-cols-[minmax(300px,_500px)]'
-          : size.width <= 1200
+          : width <= 1200
           ? 'grid-cols-[minmax(300px,_500px)_minmax(300px,_500px)]'
           : 'grid-cols-[minmax(300px,_500px)_minmax(300px,_500px)_minmax(300px,_500px)]'
       } gap-2`}

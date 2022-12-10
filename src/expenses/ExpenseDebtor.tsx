@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Debtor } from '../types/api/expense/Debtor'
 import api from '../api/expense'
 import { Expense } from '../types/api/expense/Expense'
 import Button from '../UI/Button'
 import { ButtonSize, ButtonType } from '../types/ui/expense/common/Button'
+import ExpenseContext from '../context/ExpenseContext'
 
 type Props = {
   debtor: Debtor
@@ -11,6 +12,7 @@ type Props = {
 }
 
 const ExpenseDebtor = ({ debtor, expenseId }: Props) => {
+  const { fetchExpenses } = useContext(ExpenseContext)
   const [isPaid, setIsPaid] = useState(false)
 
   useEffect(() => {
@@ -29,6 +31,10 @@ const ExpenseDebtor = ({ debtor, expenseId }: Props) => {
 
     setPaidStatus()
   }, [])
+
+  useEffect(() => {
+    fetchExpenses()
+  }, [isPaid])
 
   const paidButtonHandler = async () => {
     try {
@@ -53,6 +59,7 @@ const ExpenseDebtor = ({ debtor, expenseId }: Props) => {
         buttonType={isPaid ? ButtonType.Primary : ButtonType.Danger}
         text={isPaid ? 'Paid' : 'Unpaid'}
         size={ButtonSize.Sm}
+        onClick={paidButtonHandler}
       />
     </div>
   )

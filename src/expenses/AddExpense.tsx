@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import api from '../api/expense'
+import ExpenseContext from '../context/ExpenseContext'
 import { ButtonType } from '../types/ui/expense/common/Button'
 import { Expense } from '../types/ui/expense/Expense'
 import Button from '../UI/Button'
 import AddExpenseDebtor from './AddExpenseDebtor'
 
 const AddExpense = () => {
+  const { fetchExpenses } = useContext(ExpenseContext)
   const debtorLimit: number = 3
 
   const [showForm, setShowForm] = useState(false)
@@ -39,6 +41,7 @@ const AddExpense = () => {
     } catch (err) {
       console.log(err)
     }
+    fetchExpenses()
   }
 
   const addDebtor = () => {

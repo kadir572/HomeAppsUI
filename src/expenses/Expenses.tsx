@@ -1,11 +1,14 @@
 import AddExpense from './AddExpense'
 import ExpensesList from './ExpensesList'
+import { ExpenseProvider } from '../context/ExpenseContext'
 
 const Expenses = () => {
   return (
     <div className='flex flex-col items-center'>
-      <AddExpense />
-      <ExpensesList />
+      <ExpenseProvider>
+        <AddExpense />
+        <ExpensesList />
+      </ExpenseProvider>
     </div>
   )
 }
